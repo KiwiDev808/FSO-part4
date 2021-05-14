@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const config = require('./utils/config')
 const Blog = require('./model/blog')
 const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
 
 const mongoUrl = config.MONGODB_URL
 
@@ -28,13 +29,15 @@ mongoose
 app.use(cors())
 app.use(express.json())
 
-morgan.token('body', (req, res) => {
-  return JSON.stringify(req.body)
-})
+// morgan.token('body', (req, res) => {
+//   return JSON.stringify(req.body)
+// })
 
-app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms :body')
-)
+// app.use(
+//   morgan(':method :url :status :res[content-length] - :response-time ms :body')
+// )
+
+app.use(middleware.requestLogger)
 
 app.get('/api/blogs', (request, response) => {
   Blog.find({}).then((blogs) => {
