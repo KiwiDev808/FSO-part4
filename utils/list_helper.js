@@ -47,9 +47,33 @@ const mostBlogs = (blogs) => {
   return mostBlogsAuthor
 }
 
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return { message: 'the array is empty' }
+  }
+
+  const reducer = (acc, blog) => {
+    const likesCount = (acc[blog.author]?.likes || 0) + blog.likes
+    acc[blog.author] = {
+      author: blog.author,
+      likes: likesCount,
+    }
+    return acc
+  }
+  const groupedAuthors = blogs.reduce(reducer, {})
+  const mostLikesAuthor = Object.values(groupedAuthors).reduce(
+    (prev, current) => {
+      return prev.likes > current.likes ? prev : current
+    }
+  )
+
+  return mostLikesAuthor
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 }
