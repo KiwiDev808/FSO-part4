@@ -102,3 +102,26 @@ describe('favorite blog', () => {
     expect(result).toEqual(listWithMultipleBlogs[2])
   })
 })
+
+describe('most blogs', () => {
+  test('of empty list is array is empty', () => {
+    const result = listHelper.mostBlogs([])
+    expect(result).toEqual({ message: 'the array is empty' })
+  })
+
+  test('when list has only one blog', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    expect(result).toEqual({
+      author: 'Edsger W. Dijkstra',
+      blogs: 1,
+    })
+  })
+
+  test('when list has multiple blogs', () => {
+    const result = listHelper.mostBlogs(listWithMultipleBlogs)
+    expect(result).toEqual({
+      author: 'Robert C. Martin',
+      blogs: 3,
+    })
+  })
+})
