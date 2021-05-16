@@ -44,6 +44,12 @@ test('all blogs are returned', async () => {
   expect(response.body).toHaveLength(listWithOneBlog.length)
 })
 
+test('id exist in blogs', async () => {
+  const response = await api.get('/api/blogs')
+
+  expect(response.body[0].id).toBeDefined()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
