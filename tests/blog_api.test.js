@@ -26,7 +26,7 @@ test('all blogs are returned', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
-test('id exist in blogs', async () => {
+test('id property exist in blogs', async () => {
   const response = await api.get('/api/blogs')
 
   expect(response.body[0].id).toBeDefined()
@@ -53,7 +53,7 @@ test('a valid blog can be added', async () => {
   expect(titles).toContain('Hello my name is Jack')
 })
 
-test('a likes missing property default value is 0', async () => {
+test('if the likes property is missing the default value is set to 0', async () => {
   const newBlog = {
     title: 'Hello my name is Jack',
     author: 'Jack Man',
@@ -62,6 +62,15 @@ test('a likes missing property default value is 0', async () => {
 
   const { body } = await api.post('/api/blogs').send(newBlog)
   expect(body.likes).toBe(0)
+})
+
+test('blog without url and title is not added', async () => {
+  const newBlog = {
+    author: 'Jack Man',
+    likes: 10,
+  }
+
+  await api.post('/api/blogs').send(newBlog).expect(400)
 })
 
 afterAll(() => {
