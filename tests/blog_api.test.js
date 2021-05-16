@@ -53,6 +53,17 @@ test('a valid blog can be added', async () => {
   expect(titles).toContain('Hello my name is Jack')
 })
 
+test('a likes missing property default value is 0', async () => {
+  const newBlog = {
+    title: 'Hello my name is Jack',
+    author: 'Jack Man',
+    url: 'https://jack-man.com/',
+  }
+
+  const { body } = await api.post('/api/blogs').send(newBlog)
+  expect(body.likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
